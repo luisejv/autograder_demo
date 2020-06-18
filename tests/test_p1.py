@@ -2,17 +2,17 @@ from Lib.testInputOutput import set_keyboard_input
 from Lib.testInputOutput import get_display_output
 import unittest
 from gradescope_utils.autograder_utils.decorators import weight, tags
+from p1 import main
 
 class TestP1(unittest.TestCase):
 
-    def buildingTests(self,inputList):
+    def buildingTests(self, inputList):
         outputList = ["Ingrese frase1: ",
                       "Ingrese frase2: ",
                       "Vocales ",
                       "Consonantes ",
                       "Otros caracteres ",
                       "Frase invertida: "]
-        #inputList = ["Exito en la PC2 ICC 103", "Hola mundo programar :)"]
         vowels1 = 0
         vowels2 = 0
         consonants1 = 0
@@ -35,124 +35,54 @@ class TestP1(unittest.TestCase):
                 others2 += 1
             else:
                 consonants2 += 1
-        outputList[2] += "frase1=" + vowels1 + ",frase2=" + vowels2
-        outputList[3] += "frase1=" + consonants1 + ",frase2=" + consonants2
-        outputList[4] += "frase1=" + others1 + ",frase2=" + others2
-        outputList[5] = outputList[5] + phrase1[::-1] if others1>others2 else outputList[5] + phrase2[::-1]  
+        outputList[2] += "frase1=" + str(vowels1) + ",frase2=" + str(vowels2)
+        outputList[3] += "frase1=" + str(consonants1) + ",frase2=" + str(consonants2)
+        outputList[4] += "frase1=" + str(others1) + ",frase2=" + str(others2)
+        outputList[5] += phrase1[::-1] if others1 > others2 else phrase2[::-1]
         set_keyboard_input(inputList)
-        import p1
+        main()
         output = get_display_output()
-        return [output,outputList]
+        return [output, outputList]
 
-    @weight(0)
+    @weight(1)
     @tags("Pregunta 1")
-    def test_input1(self):
-        """Frase 1"""
-        outputAssert = self.buildingTests(["", ""])
-        msgUser =outputAssert[1][0]
-        self.assertEqual(outputAssert[0][0],
-                         msgUser,
-                         f"El mensaje de entrada hacia el usuario debería ser: \"{msgUser}\"")
-    @weight(0)
-    @tags("Pregunta 1")
-    def test_input2(self):
-        """Frase 2"""
-        outputAssert = self.buildingTests(["", ""])
-        msgUser =outputAssert[1][1]
-        self.assertEqual(outputAssert[0][1],
-                         msgUser,
-                         f"El mensaje de entrada hacia el usuario debería ser: \"{msgUser}\"")
-    @weight(0)
-    @tags("Pregunta 1")
-    def test_output1(self):
-        """Salida Vocales"""
-        outputAssert = self.buildingTests(["", ""])
-        msgUser =outputAssert[1][2]
-        self.assertEqual(outputAssert[0][2],
-                        msgUser,
-                        f"El mensaje de salida hacia el usuario debería ser: \"{msgUser}\"")
-    @weight(0)
-    @tags("Pregunta 1")
-    def test_output2(self):
-        """Salida Consonantes"""
-        outputAssert = self.buildingTests(["", ""])
-        msgUser =outputAssert[1][3]
-        self.assertEqual(outputAssert[0][3],
-                        msgUser,
-                        f"El mensaje de salida hacia el usuario debería ser: \"{msgUser}\"")
-    @weight(0)
-    @tags("Pregunta 1")
-    def test_output3(self):
-        """Salida Otros"""
-        outputAssert = self.buildingTests(["", ""])
-        msgUser =outputAssert[1][4]
-        self.assertEqual(outputAssert[0][4],
-                        msgUser,
-                        f"El mensaje de salida hacia el usuario debería ser: \"{msgUser}\"")
-    @weight(0)
-    @tags("Pregunta 1")
-    def test_output4(self):
-        """Salida Frase Invertida"""
-        outputAssert = self.buildingTests(["", ""])
-        msgUser =outputAssert[1][5]
-        self.assertEqual(outputAssert[0][5],
-                        msgUser,
-                        f"El mensaje de salida hacia el usuario debería ser: \"{msgUser}\"")
-    @weight(0.5)
-    @tags("Pregunta 1")
-    def test_error_1(self):
-        """Probando entrada erronea 1"""
+    def test_error(self):
+        """Pregunta 1 - Probando entradas correctas y erróneas"""
         outputAssert = self.buildingTests(["Exito en la PC2 ICC 103", "Hola mundo", "Exito en la PC2 ICC 103", "Hola mundo programar :)"])
-        msgUser =outputAssert[1][0]
-        self.assertEqual(outputAssert[0][2],
-                         msgUser,
-                         f"El mensaje de entrada hacia el usuario debería ser: \"{msgUser}\"")
-    @weight(0.5)
-    @tags("Pregunta 1")
-    def test_error_2(self):
-        """Probando entrada erronea 2"""
-        outputAssert = self.buildingTests(["Exito en la PC2 ICC 103", "Hola mundo", "Exito en la PC2 ICC 103", "Hola mundo programar :)"])
-        msgUser =outputAssert[1][1]
-        self.assertEqual(outputAssert[0][3],
-                         msgUser,
-                         f"El mensaje de entrada hacia el usuario debería ser: \"{msgUser}\"")
+        self.assertEqual(outputAssert[0][0], outputAssert[1][0], f"El mensaje debería ser: \"{outputAssert[1][0]}\"")
+        self.assertEqual(outputAssert[0][1], outputAssert[1][1], f"El mensaje debería ser: \"{outputAssert[1][1]}\"")
+        self.assertEqual(outputAssert[0][2], outputAssert[1][0], f"No estás checkeando que los strings tengan la misma longitud")
+        self.assertEqual(outputAssert[0][3], outputAssert[1][1], f"No estás checkeando que los strings tengan la misma longitud")
+    
     @weight(1)
     @tags("Pregunta 1")
     def test_vowels(self):
-        """Probando resultado vocales"""
+        """Pregunta 1 - Probando vocales"""
         outputAssert = self.buildingTests(["Exito en la PC2 ICC 103", "Hola mundo programar :)"])
-        msgUser = outputAssert[1][2]
-        self.assertEqual(outputAssert[0][2],
-                         msgUser,
-                         f"El resultado debería ser: \"{msgUser}\"")
+        self.assertEqual(outputAssert[0][2], outputAssert[1][2], f"El resultado debería ser: \"{outputAssert[1][2]}\"")
+    
     @weight(1)
     @tags("Pregunta 1")
     def test_consonants(self):
-        """Probando resultado consonantes"""
+        """Pregunta 1 - Probando consonantes"""
         outputAssert = self.buildingTests(["Exito en la PC2 ICC 103", "Hola mundo programar :)"])
-        msgUser =outputAssert[1][3]
-        self.assertEqual(outputAssert[0][3],
-                         msgUser,
-                         f"El resultado debería ser: \"{msgUser}\"")
+        self.assertEqual(outputAssert[0][3], outputAssert[1][3], f"El resultado debería ser: \"{outputAssert[1][3]}\"")
+    
     @weight(1)
     @tags("Pregunta 1")
     def test_others(self):
-        """Probando resultado otros caracteres"""
+        """Pregunta 1 - Probando otros caracteres"""
         outputAssert = self.buildingTests(["Exito en la PC2 ICC 103", "Hola mundo programar :)"])
-        msgUser =outputAssert[1][4]
-        self.assertEqual(outputAssert[0][4],
-                         msgUser,
-                         f"El resultado debería ser: \"{msgUser}\"")
+        self.assertEqual(outputAssert[0][4], outputAssert[1][4], f"El resultado debería ser: \"{outputAssert[1][4]}\"")
+    
     @weight(1)
     @tags("Pregunta 1")
     def test_inverted(self):
-        """Probando resultado invertido"""
+        """Pregunta 1 - Probando frase invertida"""
         outputAssert = self.buildingTests(["Exito en la PC2 ICC 103", "Hola mundo programar :)"])
-        msgUser =outputAssert[1][5]
-        self.assertEqual(outputAssert[0][5],
-                         msgUser,
-                         f"El resultado debería ser: \"{msgUser}\"")
+        self.assertEqual(outputAssert[0][5], outputAssert[1][5], f"El resultado debería ser: \"{outputAssert[1][5]}\"")
+
 
 if __name__ == '__main__':
-    t =  TestP1()
+    t = TestP1()
     t.test_input(t)

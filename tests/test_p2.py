@@ -2,6 +2,8 @@ from Lib.testInputOutput import set_keyboard_input
 from Lib.testInputOutput import get_display_output
 import unittest
 from gradescope_utils.autograder_utils.decorators import weight, tags
+from p2 import main
+
 
 class TestP2(unittest.TestCase):
 
@@ -33,66 +35,41 @@ class TestP2(unittest.TestCase):
                 mayus += 1
             elif password[i] >= '0' and password[i] <= '9':
                 numbers += 1
-        outputList[2] = name + "buena contrasena" if mayus >= 2 and numbers >= 3 and charsCount >= 1 else name + "contrasena debil"
+        outputList[2] = name + " buena contrasena" if mayus >= 2 and numbers >= 3 and charsCount >= 1 else name + " contrasena debil"
         set_keyboard_input(inputList)
-        import p2
+        main()
         output = get_display_output()
-        return [output,outputList]
+        return [output, outputList]
 
-    @weight(0)
-    @tags("Pregunta 2")
-    def test_input1(self):
-        """Nombre"""
-        outputAssert = self.buildingTests(["", ""])
-        msgUser =outputAssert[1][0]
-        self.assertEqual(outputAssert[0][0],
-                         msgUser,
-                         f"El mensaje de entrada hacia el usuario debería ser: \"{msgUser}\"")
-    @weight(0)
-    @tags("Pregunta 2")
-    def test_input2(self):
-        """Contraseña"""
-        outputAssert = self.buildingTests(["", ""])
-        msgUser =outputAssert[1][1]
-        self.assertEqual(outputAssert[0][1],
-                         msgUser,
-                         f"El mensaje de entrada hacia el usuario debería ser: \"{msgUser}\"")
     @weight(1)
     @tags("Pregunta 2")
     def test_error(self):
-        """Probando contraseña erronea"""
-        outputAssert = self.buildingTests(["Juan", "hola MUN1", "ABE123cd$"])
-        msgUser =outputAssert[1][1]
-        self.assertEqual(outputAssert[0][2],
-                         msgUser,
-                         f"El mensaje de entrada hacia el usuario debería ser: \"{msgUser}\"")
+        """Pregunta 2 - Probando contraseña erronea"""
+        outputAssert = self.buildingTests(["Juan", "", "hola MUN1", "ABE123cd$"])
+        self.assertEqual(outputAssert[0][1], outputAssert[1][1], f"El mensaje de entrada hacia el usuario debería ser: \"{outputAssert[1][1]}\"")
+        self.assertEqual(outputAssert[0][2], outputAssert[1][1], f"No estás validando que la contraseña tenga 9 caracteres")
+        self.assertEqual(outputAssert[0][3], outputAssert[1][1], f"No estás validando que la contraseña no tenga espacios")
+    
     @weight(1.5)
     @tags("Pregunta 2")
     def test_weak(self):
-        """Probando contraseña debil"""
+        """Pregunta 2 - Probando contraseña debil"""
         outputAssert = self.buildingTests(["Juan", "ABB123cd$"])
-        msgUser = outputAssert[1][2]
-        self.assertEqual(outputAssert[0][2],
-                         msgUser,
-                         f"El resultado debería ser: \"{msgUser}\"")
+        self.assertEqual(outputAssert[0][2], outputAssert[1][2], f"El resultado debería ser: \"{outputAssert[1][2]}\"")
+    
     @weight(1.5)
     @tags("Pregunta 2")
     def test_strong(self):
-        """Probando contraseña fuerte"""
+        """Pregunta 2 - Probando contraseña fuerte"""
         outputAssert = self.buildingTests(["Juan", "ABE123cd$"])
-        msgUser =outputAssert[1][2]
-        self.assertEqual(outputAssert[0][2],
-                         msgUser,
-                         f"El resultado debería ser: \"{msgUser}\"")
+        self.assertEqual(outputAssert[0][2], outputAssert[1][2], f"El resultado debería ser: \"{outputAssert[1][2]}\"")
+    
     @weight(1)
     @tags("Pregunta 2")
     def test_name(self):
-        """Probando sin nombre"""
+        """Pregunta 2 - Probando sin nombre"""
         outputAssert = self.buildingTests(["", "ABE123cd$"])
-        msgUser =outputAssert[1][2]
-        self.assertEqual(outputAssert[0][2],
-                         msgUser,
-                         f"El resultado debería ser: \"{msgUser}\"")
+        self.assertEqual(outputAssert[0][2], outputAssert[1][2], f"El resultado debería ser: \"{outputAssert[1][2]}\"")
 
 if __name__ == '__main__':
     t =  TestP2()
