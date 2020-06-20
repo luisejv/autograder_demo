@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-# Set up autograder files
-cp /autograder/submission/p1.py /autograder/source/p1.py
-cp /autograder/submission/p2.py /autograder/source/p2.py
-cp /autograder/submission/p3.py /autograder/source/p3.py
-cp /autograder/submission/p4.py /autograder/source/p4.py
-cd /autograder/source
-python3 run_tests.py > /autograder/results/results.json
